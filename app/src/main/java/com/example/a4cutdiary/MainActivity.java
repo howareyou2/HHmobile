@@ -3,24 +3,16 @@ package com.example.a4cutdiary;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationBarView;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import org.jetbrains.annotations.NotNull;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
     HomeFragment HFragment;
-    MapFragment MFragment;
+    MapViewFragment MFragment;
     AlbumFragment AFragment;
 
     @Override
@@ -29,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         HFragment = new HomeFragment();
-        MFragment = new MapFragment();
+        MFragment = new MapViewFragment();
         AFragment = new AlbumFragment();
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, HFragment).commit();
