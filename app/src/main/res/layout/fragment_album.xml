@@ -4,5 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".AlbumFragment" />
+    android:orientation="vertical"
+    tools:context=".AlbumFragment">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <GridLayout
+                    android:id="@+id/album"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:columnCount="3"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/addPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/ic_menu_add" />
+
+                </GridLayout>
+
+            </FrameLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/changebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_weight="0"
+            android:text="Diary" />
+
+    </FrameLayout>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="106dp" />
+
+</LinearLayout>
+
