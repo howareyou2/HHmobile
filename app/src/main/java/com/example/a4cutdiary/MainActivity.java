@@ -1,37 +1,26 @@
 package com.example.a4cutdiary;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.navigation.NavigationBarView;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import android.os.Bundle;
-import android.view.MenuItem;
-import com.google.android.material.navigation.NavigationBarView;
-
-import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
 
     HomeFragment HFragment;
-    MapFragment MFragment;
+    MapViewFragment MFragment;
     AlbumFragment AFragment;
     DiaryFragment DFragment;
 
@@ -113,4 +102,3 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-}
