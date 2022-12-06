@@ -1,15 +1,26 @@
 package com.example.a4cutdiary;
 
+import android.Manifest;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentActivity;
 
-import com.naver.maps.map.MapFragment;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.MapView;
+import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.OnMapReadyCallback;
+import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.util.FusedLocationSource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -17,12 +28,28 @@ import com.naver.maps.map.MapView;
  * Use the {@link MapViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapViewFragment extends Fragment {
+public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
+    private NaverMap naverMap;
+    private FusedLocationSource locationSource;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
+    private static final String[] PERMISSIONS = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+    List<LatLng> lstLatLng = new ArrayList<>();
+
+    private FragmentActivity myContext;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    @Override
+    public void onAttach(Activity activity) {
+        myContext=(FragmentActivity) activity;
+        super.onAttach(activity);
+    }
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -32,8 +59,12 @@ public class MapViewFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
+    public static MapViewFragment newInstance()
+    {
+        MapViewFragment fragment = new MapViewFragment();
+        return fragment;
+    }
+    /* Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
@@ -58,13 +89,21 @@ public class MapViewFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_map_view, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_map,
+                container, false);
+
+        mapView = (MapView) rootView.findViewById(R.id.map_view);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+        return rootView;
     }
 
     @Override
@@ -116,4 +155,21 @@ public class MapViewFragment extends Fragment {
         mapView.onLowMemory();
 }
 
+    @Override
+    public void onMapReady(@NonNull NaverMap naverMap) {
+        naverMap.setMapType(NaverMap.MapType.Basic);
+        //건물 표시
+        naverMap.setLayerGroupEnabled(naverMap.LAYER_GROUP_BUILDING, true);
+        //위치 및 각도 조정
+        CameraPosition cameraPosition = new CameraPosition(
+                new LatLng(37.6251748, 126.55),   // 위치 지정
+                9,                                     // 줌 레벨
+                0,                                       // 기울임 각도
+                0                                    // 방향
+        );
+        naverMap.setCameraPosition(cameraPosition);
+        Marker marker = new Marker();
+        marker.setPosition(new LatLng(37.6251748, 126.55));
+        marker.setMap(naverMap);
+    }
 }
