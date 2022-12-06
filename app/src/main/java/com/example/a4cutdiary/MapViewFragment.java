@@ -162,14 +162,25 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         naverMap.setLayerGroupEnabled(naverMap.LAYER_GROUP_BUILDING, true);
         //위치 및 각도 조정
         CameraPosition cameraPosition = new CameraPosition(
-                new LatLng(37.6251748, 126.55),   // 위치 지정
-                9,                                     // 줌 레벨
+                new LatLng(37.629125, 127.081266),   // 위치 지정
+                15,                                     // 줌 레벨
                 0,                                       // 기울임 각도
                 0                                    // 방향
         );
         naverMap.setCameraPosition(cameraPosition);
-        Marker marker = new Marker();
-        marker.setPosition(new LatLng(37.6251748, 126.55));
-        marker.setMap(naverMap);
+        Marker marker1 = new Marker();
+        Marker marker2 = new Marker();
+        Marker marker3 = new Marker();
+        Marker marker4 = new Marker();
+        Marker marker5 = new Marker();
+        Marker marker6 = new Marker();
+        Marker marker7 = new Marker();
+        Marker marker8 = new Marker();
+        Marker marker9 = new Marker();
+        Marker marker10 = new Marker();
+
+        marker1.setPosition(new LatLng(37.629125, 127.081266));
+        marker1.setMap(naverMap);
+
     }
 }
