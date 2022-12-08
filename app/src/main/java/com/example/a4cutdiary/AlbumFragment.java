@@ -15,7 +15,9 @@ import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 
 import androidx.fragment.app.Fragment;
@@ -46,6 +48,12 @@ public class AlbumFragment extends Fragment {
     private static final int PICK_IMAGE = 1000;
     private List<String> images = new ArrayList<>();
     ImageAdapter adapter;
+    Button photo_add;
+    Button gobtn;
+    GridView gridView;
+    ListView listView;
+    LinearLayout albumlayout;
+
     /*
     Integer[] posterID = {
 
@@ -94,14 +102,34 @@ public class AlbumFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup albumView = (ViewGroup) inflater.inflate(R.layout.fragment_album, container, false);
 
-        Button button = albumView.findViewById(R.id.changebtn);
-        button.setOnClickListener(new View.OnClickListener() {
+        listView = (ListView) albumView.findViewById(R.id.diaryList);
+        albumlayout = (LinearLayout) albumView.findViewById(R.id.albumlayout);
+        gobtn = albumView.findViewById(R.id.changebtn);
+
+        gobtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 MainActivity activity = (MainActivity) getActivity();
                 activity.onFragmentChanged(0);
+
+                 */
+                if(gobtn.getText().toString() == "Diary") {
+                    albumlayout.setVisibility(View.INVISIBLE);
+                    listView.setVisibility(View.VISIBLE);
+                    gobtn.setText("Album");
+                }
+                else{
+                    albumlayout.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.INVISIBLE);
+                    gobtn.setText("Diary");
+                }
+
+
+
             }
         });
+
         /*
         ImageButton addphoto = albumView.findViewById(R.id.addPhoto);
         addphoto.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +142,7 @@ public class AlbumFragment extends Fragment {
         */
 
         //list = new ArrayList<ImageView>();
-        GridView gridView = (GridView) albumView.findViewById(R.id.albumGrid);
+        gridView = (GridView) albumView.findViewById(R.id.albumGrid);
         //adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,list);
         adapter = new ImageAdapter(getActivity(),images);
         gridView.setAdapter(adapter);
@@ -124,7 +152,7 @@ public class AlbumFragment extends Fragment {
        // intent.putExtra("images", (Serializable) mainData.getData().getFeaturedProduct());
        // getActivity().startActivity(intent);
 
-        Button photo_add = albumView.findViewById(R.id.photo_add);
+        photo_add = albumView.findViewById(R.id.photo_add);
         photo_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

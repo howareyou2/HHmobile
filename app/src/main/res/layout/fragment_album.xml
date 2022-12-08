@@ -7,29 +7,51 @@
     android:orientation="vertical"
     tools:context=".AlbumFragment">
 
-    <Button
-        android:id="@+id/photo_add"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="새로운 추억 추가"
-        android:layout_margin="16dp"/>
+        android:layout_height="match_parent">
 
-    <GridView
-        android:id="@+id/albumGrid"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:numColumns="3">
+        <Button
+            android:id="@+id/changebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_weight="0"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="20dp"
+            android:text="Diary" />
 
-    </GridView>
+        <ListView
+            android:id="@+id/diaryList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <Button
-        android:id="@+id/changebtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_weight="0"
-        android:text="Diary" />
+        <LinearLayout
+            android:id="@+id/albumlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/photo_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="새로운 추억 추가"
+                android:visibility="visible" />
+
+            <GridView
+                android:id="@+id/albumGrid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:numColumns="3"
+                android:visibility="visible">
+
+            </GridView>
+
+        </LinearLayout>
+    </FrameLayout>
 
     <Space
         android:layout_width="wrap_content"
