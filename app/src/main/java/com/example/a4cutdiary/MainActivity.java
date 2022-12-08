@@ -6,7 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.GridView;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +20,8 @@ import com.google.android.material.navigation.NavigationBarView;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-
         }
 
         public void onFragmentChanged(int index) {
@@ -68,37 +73,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void AddNewPhoto() {
-            openGallery();
-        }
 
-        public void openGallery() {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-
-            startActivityForResult(intent, 101);
-        }
-
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-
-            if (requestCode == 101) {
-                if (resultCode == RESULT_OK) {
-                    Uri fileUri = data.getData();
-
-                    ContentResolver resolver = getContentResolver();
-
-                    try {
-
-                        InputStream instream = resolver.openInputStream(fileUri);
-                        Bitmap imgBitmap = BitmapFactory.decodeStream(instream);
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
+}
