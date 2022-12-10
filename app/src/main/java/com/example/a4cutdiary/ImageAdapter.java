@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -26,12 +25,12 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return images.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -47,6 +46,7 @@ public class ImageAdapter extends BaseAdapter {
         else{
             imageView = (ImageView) convertView;
         }
+        System.out.println(images.get(position));
         Glide.with(mContext).load(images.get(position)).into(imageView);
         return imageView;
     }

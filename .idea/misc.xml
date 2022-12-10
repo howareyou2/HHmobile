@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Leehyolyn/AndroidStudioProjects/4cutDiary-master (1)/4cutDiary-master/app/src/main/res/layout/activity_diary.xml" value="0.21302083333333333" />
         <entry key="..\:/Users/Leehyolyn/AndroidStudioProjects/4cutDiary-master (1)/4cutDiary-master/app/src/main/res/layout/activity_map_view.xml" value="0.1" />
-        <entry key="..\:/Users/Leehyolyn/AndroidStudioProjects/4cutDiary-master (1)/4cutDiary-master/app/src/main/res/layout/fragment_album.xml" value="0.1" />
+        <entry key="..\:/Users/Leehyolyn/AndroidStudioProjects/4cutDiary-master (1)/4cutDiary-master/app/src/main/res/layout/fragment_album.xml" value="0.264" />
+        <entry key="..\:/Users/Leehyolyn/AndroidStudioProjects/4cutDiary-master (1)/4cutDiary-master/app/src/main/res/layout/fragment_dairy.xml" value="0.264" />
         <entry key="..\:/Users/Leehyolyn/AndroidStudioProjects/4cutDiary-master (1)/4cutDiary-master/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Users/Leehyolyn/AndroidStudioProjects/4cutDiary-master (1)/4cutDiary-master/app/src/main/res/layout/fragment_map.xml" value="0.264" />
         <entry key="..\:/Users/Leehyolyn/AndroidStudioProjects/4cutDiary-master (1)/4cutDiary-master/app/src/main/res/xml/network_security_config.xml" value="0.1" />
