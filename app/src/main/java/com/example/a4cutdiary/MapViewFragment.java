@@ -181,6 +181,25 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
         marker1.setPosition(new LatLng(37.629125, 127.081266));
         marker1.setMap(naverMap);
+        marker1.setWidth(50);
+        marker1.setHeight(55);
+
+        marker2.setPosition(new LatLng(37.626616, 127.076540));
+        marker2.setMap(naverMap);
+        marker2.setWidth(50);
+        marker2.setHeight(55);
+
+        marker3.setPosition(new LatLng(37.625192, 127.077215));
+        marker3.setMap(naverMap);
+        marker3.setWidth(50);
+        marker3.setHeight(55);
+
+        marker4.setPosition(new LatLng(37.626549, 127.076623));
+        marker4.setMap(naverMap);
+        marker4.setWidth(50);
+        marker4.setHeight(55);
+
+
 
     }
 }
