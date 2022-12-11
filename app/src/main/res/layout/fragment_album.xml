@@ -5,57 +5,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AlbumFragment">
+    tools:context=".MainActivity" >
 
-    <FrameLayout
+    <Button
+        android:id="@+id/openAlbum"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:text="추억 꺼내보기" />
+
+    <DatePicker
+        android:id="@+id/dp"
+        android:layout_width="match_parent"
+        android:layout_height="97dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
-            android:id="@+id/changebtn"
+            android:id="@+id/addPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_weight="0"
-            android:layout_marginBottom="60dp"
-            android:layout_marginRight="20dp"
-            android:text="Diary" />
+            android:layout_gravity="top|left"
+            android:layout_marginLeft="40dp"
+            android:text="추억 선택하기" />
 
-        <ListView
-            android:id="@+id/diaryList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button"
+            android:visibility="invisible" />
 
-        <LinearLayout
-            android:id="@+id/albumlayout"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="40dp"
+            android:text="추억 저장하기" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/samplephoto" />
+
+        <EditText
+            android:id="@+id/text"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:hint="기억할 추억 작성하기" />
 
-            <Button
-                android:id="@+id/photo_add"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="새로운 추억 추가"
-                android:visibility="visible" />
+    </LinearLayout>
 
-            <GridView
-                android:id="@+id/albumGrid"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:numColumns="3"
-                android:visibility="visible">
-
-            </GridView>
-
-        </LinearLayout>
-    </FrameLayout>
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="106dp" />
 
 </LinearLayout>
-

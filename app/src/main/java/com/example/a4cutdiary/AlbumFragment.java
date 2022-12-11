@@ -1,6 +1,12 @@
 package com.example.a4cutdiary;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,14 +15,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,26 +52,15 @@ public class AlbumFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    //private ArrayList<String> mItems;
-    //private GridView gridView;
-    //ThumbnailDownloader<ImageView> mThumbnailThread;
-    private static final int PICK_IMAGE = 1000;
-    private List<String> images = new ArrayList<>();
-    ImageAdapter adapter;
-    Button photo_add;
-    Button gobtn;
-    GridView gridView;
-    ListView listView;
-    LinearLayout albumlayout;
 
-    /*
-    Integer[] posterID = {
+    EditText edtText;
+    Button btnChoose, btnAdd, btnList;
+    ImageView imageView;
+    String date;
 
-            R.drawable.ic_album, R.drawable.ic_home, R.drawable.ic_map, R.drawable.ic_modechage1, R.drawable.ic_modechange2
-    };*/
+    final int REQUEST_CODE_GALLERY = 999;
 
-
-
+    public static SQLiteHelper sqLiteHelper;
 
     /**
      * Use this factory method to create a new instance of
@@ -94,81 +101,118 @@ public class AlbumFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup albumView = (ViewGroup) inflater.inflate(R.layout.fragment_album, container, false);
 
-        listView = (ListView) albumView.findViewById(R.id.diaryList);
-        albumlayout = (LinearLayout) albumView.findViewById(R.id.albumlayout);
-        gobtn = albumView.findViewById(R.id.changebtn);
+        edtText = (EditText) albumView.findViewById(R.id.text);
+        btnChoose = (Button) albumView.findViewById(R.id.addPhoto);
+        btnAdd = (Button) albumView.findViewById(R.id.save);
+        btnList = (Button) albumView.findViewById(R.id.openAlbum);
+        imageView = (ImageView) albumView.findViewById(R.id.photo);
 
-        gobtn.setOnClickListener(new View.OnClickListener() {
+
+
+        sqLiteHelper = new SQLiteHelper(getActivity(), "DiaryDB.sqlite", null, 1);
+
+        sqLiteHelper.queryData("CREATE TABLE IF NOT EXISTS DIARY(Id INTEGER PRIMARY KEY AUTOINCREMENT, diary VARCHAR, image BLOB)");
+
+        btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(gobtn.getText().toString() == "Diary") {
-                    albumlayout.setVisibility(View.INVISIBLE);
-                    listView.setVisibility(View.VISIBLE);
-                    gobtn.setText("Album");
+                requestPermissions(new String[]{
+                                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_CODE_GALLERY);
+
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    sqLiteHelper.insertData(
+                            edtText.getText().toString().trim(),
+                            imageViewToByte(imageView)
+                    );
+                    Toast.makeText(getActivity().getApplicationContext(), "Yeah! +1 추억!", Toast.LENGTH_SHORT).show();
+                    edtText.setText("");
+                    imageView.setImageResource(R.drawable.samplephoto);
                 }
-                else{
-                    albumlayout.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.INVISIBLE);
-                    gobtn.setText("Diary");
+                catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         });
 
-        gridView = (GridView) albumView.findViewById(R.id.albumGrid);
-        adapter = new ImageAdapter(getActivity(),images);
-        gridView.setAdapter(adapter);
-        gridView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent me) {
-
-                float currentXPosition = me.getX();
-                float currentYPosition = me.getY();
-                int position = gridView.pointToPosition((int) currentXPosition, (int) currentYPosition);
-                if(position < 0) return false;
-
-                // Access text in the cell, or the object itself
-                String imagePath = (String) gridView.getItemAtPosition(position);
-
-                Intent intent = new Intent(getActivity().getApplicationContext(), DiaryActivity.class);
-                intent.putExtra("imagePath", imagePath);
-
+        btnList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AlbumList.class);
                 startActivity(intent);
-
-                return false;
             }
         });
 
-        photo_add = albumView.findViewById(R.id.photo_add);
-        photo_add.setOnClickListener(new View.OnClickListener() {
+        Calendar c = Calendar.getInstance();
+        int cYear = c.get(Calendar.YEAR);
+        int cMonth = c.get(Calendar.MONTH);
+        int cDay = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePicker  dp = (DatePicker) albumView.findViewById(R.id.dp);
+        dp.init(cYear, cMonth, cDay, new DatePicker.OnDateChangedListener() {
             @Override
-            public void onClick(View view) {
-                pickImageFromGallery();
-            }
-
-            public void pickImageFromGallery() {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"추억을 고르세요"),1000);
-
-            }
-
-        });
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("clicked", "has clicked");
+            public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                date = Integer.toString(i)+"_"+Integer.toString(i1+1)+"_"+Integer.toString(i2);
             }
         });
+
         return albumView;
 
     }
+
+    public static byte[] imageViewToByte(ImageView image) {
+        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if(requestCode == REQUEST_CODE_GALLERY){
+            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, REQUEST_CODE_GALLERY);
+            }
+            else {
+                Toast.makeText(getActivity().getApplicationContext(), "앱의 권한 설정을 확인해주세요!", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode,data);
-        if(requestCode == 1000){
-            images.add(String.valueOf(data.getData()));
-            adapter.notifyDataSetChanged();
+
+        if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null){
+            Uri uri = data.getData();
+
+            try {
+                InputStream inputStream = getActivity().getContentResolver().openInputStream(uri);
+
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                imageView.setImageBitmap(bitmap);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
+
 
 }
